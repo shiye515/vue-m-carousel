@@ -6,21 +6,21 @@
             {{{addonAfter}}}
         </div>
         <div class="carousel-indicators" v-if="indicators">
-            <div class="carousel-dot" v-for="(index, item) in list" @click="transitionTo(index)">{{index}}</div>
+            <div :class="{'carousel-dot':true,'active':index==activeIndex}" v-for="(index, item) in list" @click="transitionTo(index)">{{index}}</div>
         </div>
     </div>
 </template>
 <script>
-var module = 'carousel'
+var defaultDuration = 300;
 export default {
     props: {
         loop: {
             type: Boolean,
-            default: false
+            default: true
         },
         auto: {
             type: Number,
-            default: 0
+            default: 2000
         },
         indicators: {
             type: Boolean,
@@ -37,12 +37,17 @@ export default {
         delta: {
             type: Number,
             default: 100
+        },
+        className: {
+            type: String,
+            default: ''
         }
     },
     data() {
         return {
             addonBefore: '',
             addonAfter: '',
+            timer: 0,
             activeIndex: 0,
             list: [],
             style: {
@@ -51,9 +56,9 @@ export default {
             },
             trackStyle: {
                 transform: 'translate(0px, 0px) translateZ(0px)',
-                transitionDuration: '0ms'
+                transitionDuration: 0
             },
-            transitionDuration: '600ms'
+            transitionDuration: defaultDuration
         }
     },
     events: {
@@ -65,15 +70,18 @@ export default {
         }
     },
     watch: {
-        list(value) {
-            var len = value.length;
-            if (len && this.loop) {
-                this.addonBefore = value[len - 1].$el.outerHTML;
-                this.addonAfter = value[0].$el.outerHTML;
-            }
+        list() {
+            this.setHelperDOM();
         }
     },
     methods: {
+        setHelperDOM() {
+            var len = this.list.length;
+            if (len && this.loop) {
+                this.addonBefore = this.list[len - 1].$el.outerHTML;
+                this.addonAfter = this.list[0].$el.outerHTML;
+            }
+        },
         slid(index, delta) {
             var {
                 loop,
@@ -90,7 +98,7 @@ export default {
             }
             this.trackStyle = {
                 transform: 'translate(' + (-width * (index + (loop ? 1 : 0)) - delta) + 'px, 0px) translateZ(0px)',
-                transitionDuration: transitionDuration
+                transitionDuration: transitionDuration + 'ms'
             }
             this.activeIndex = (index + len) % len;
         },
@@ -108,19 +116,39 @@ export default {
                 absY: ayd
             }
         },
+        setTimer() {
+            var {
+                auto,
+                list
+            } = this;
+            var len = list.length;
+            if (auto && len) {
+                this.timer = setInterval(() => {
+                    this.transitionTo((this.activeIndex + 1 + len) % len)
+                }, auto)
+            }
+        },
+        clearTimer() {
+            if (this.timer) {
+                clearInterval(this.timer);
+            }
+        },
         transitionTo(index) {
-            this.transitionDuration = '600ms';
+            this.clearTimer();
+            this.transitionDuration = defaultDuration;
             this.slid(index, 0);
+            this.setTimer();
         },
         onTouchstart(e) {
             if (e.touches.length > 1) {
                 return
             }
             this.swiping = false;
-            this.transitionDuration = '0ms';
+            this.transitionDuration = 0;
             this.start = Date.now();
             this.x = e.touches[0].clientX;
             this.y = e.touches[0].clientY;
+            this.clearTimer();
         },
         onTouchmove(e) {
             var pos = this.calculatePos(e);
@@ -141,55 +169,40 @@ export default {
             if (isFlick || pos.absX > this.delta) {
                 activeIndex = activeIndex + pos.absX / pos.deltaX;
             }
-            this.transitionDuration = '600ms';
+            this.transitionDuration = defaultDuration;
             this.slid(activeIndex, 0);
+            this.setTimer();
         },
         onTouchcancel(e) {
-            this.transitionDuration = '600ms';
+            this.transitionDuration = defaultDuration;
             this.slid(this.activeIndex, 0);
+            this.setTimer();
+        },
+        resize() {
+            this.width = this.$el.offsetWidth;
+            this.$broadcast('width', this.width);
+            this.$nextTick(function afterResize() {
+                this.setHelperDOM();
+                this.slid(this.activeIndex, 0);
+            }, this)
         }
     },
-    init() {
-        console.log(module, 'init')
-    },
     created() {
-        console.log(module, 'created')
         if (this.responsive !== 0) {
             this.style.height = 0;
             this.style.paddingBottom = this.responsive + '%';
         }
     },
-    beforeCompile() {
-        console.log(module, 'beforeCompile')
-    },
-    compiled() {
-        console.log(module, 'compiled')
-    },
     ready() {
-        console.log(module, 'ready');
-        var {
-            auto
-        } = this;
-        if (auto) {
-            this.timer = setInterval(() => {
-                this.transitionTo(this.activeIndex + 1)
-            }, auto)
-        }
+        this.setTimer();
     },
     attached() {
-        console.log(module, 'attached')
-        this.width = this.$el.offsetWidth;
-        this.$broadcast('width', this.width);
+        this.resize();
         this.slid(this.activeIndex, 0);
+        window.addEventListener('resize', this.resize);
     },
     detached() {
-        console.log(module, 'detached')
-    },
-    beforeDestroy() {
-        console.log(module, 'beforeDestroy')
-    },
-    destroyed() {
-        console.log(module, 'destroyed')
+        window.removeEventListener('resize', this.resize);
     }
 }
 </script>
@@ -219,7 +232,10 @@ export default {
         width: 20px;
         height: 20px;
         margin: 10px;
-        background: rgba(0, 0, 0, 0.5)
+        background: rgba(0, 0, 0, 0.5);
+        &.active {
+            background: red;
+        }
     }
 }
 </style>

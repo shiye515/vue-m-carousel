@@ -1,12 +1,12 @@
 <template>
     <div id="app">
-        <carousel :indicators="true" :loop="true" :auto="2000">
-            <carousel-item index="0">0</carousel-item>
-            <carousel-item index="1">1</carousel-item>
-            <carousel-item index="2">2</carousel-item>
-            <carousel-item index="3">3</carousel-item>
-            <carousel-item index="4">4</carousel-item>
-            <carousel-item index="5">5</carousel-item>
+        <carousel :indicators="true">
+            <carousel-item>carousel-item-0</carousel-item>
+            <carousel-item>carousel-item-1</carousel-item>
+            <carousel-item>carousel-item-2</carousel-item>
+            <carousel-item>carousel-item-3</carousel-item>
+            <carousel-item>carousel-item-4</carousel-item>
+            <carousel-item>carousel-item-5</carousel-item>
         </carousel>
     </div>
 </template>
