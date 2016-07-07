@@ -8,6 +8,8 @@ module.exports = {
         index: './src/index.js'
     },
     output: {
+        library: 'vue-m-carousel',
+        libraryTarget: 'umd',
         path: config.build.assetsRoot,
         filename: '[name].js'
     },
