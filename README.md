@@ -1,6 +1,10 @@
 # vue-m-carousel
 vue 移动端轮播组件
 
+## install
+
+[![vue-m-carousel](https://nodei.co/npm/vue-m-carousel.png)](https://npmjs.org/package/vue-m-carousel)
+
 ## 用法
 ```html
     <carousel :indicators="true" :auto="3000">
@@ -13,6 +17,7 @@ vue 移动端轮播组件
     </carousel>
 ```
 ```javascript
+// 先将就着这么用吧。。。
 import Carousel from 'vue-m-carousel/src/Carousel'
 import CarouselItem from 'vue-m-carousel/src/CarouselItem'
 export default {
