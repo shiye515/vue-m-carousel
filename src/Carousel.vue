@@ -20,7 +20,7 @@ export default {
         },
         auto: {
             type: Number,
-            default: 2000
+            default: 3000
         },
         indicators: {
             type: Boolean,
@@ -38,9 +38,9 @@ export default {
             type: Number,
             default: 100
         },
-        className: {
-            type: String,
-            default: ''
+        onSlidEnd: {
+            type: Function,
+            default: i => 0
         }
     },
     data() {
@@ -101,6 +101,16 @@ export default {
                 transitionDuration: transitionDuration + 'ms'
             }
             this.activeIndex = (index + len) % len;
+            if (transitionDuration > 0 && loop && (this.activeIndex === 0 || this.activeIndex === len - 1)) {
+                setTimeout(this.correctIndex, transitionDuration);
+            }
+            if (transitionDuration > 0) {
+                this.onSlidEnd(this.activeIndex)
+            }
+        },
+        correctIndex() {
+            this.transitionDuration = 0;
+            this.slid(this.activeIndex, 0);
         },
         calculatePos(e) {
             var x = e.changedTouches[0].clientX;
@@ -124,7 +134,7 @@ export default {
             var len = list.length;
             if (auto && len) {
                 this.timer = setInterval(() => {
-                    this.transitionTo((this.activeIndex + 1 + len) % len)
+                    this.transitionTo(this.activeIndex + 1)
                 }, auto)
             }
         },
@@ -133,9 +143,9 @@ export default {
                 clearInterval(this.timer);
             }
         },
-        transitionTo(index) {
+        transitionTo(index, duration) {
             this.clearTimer();
-            this.transitionDuration = defaultDuration;
+            this.transitionDuration = duration || defaultDuration;
             this.slid(index, 0);
             this.setTimer();
         },
@@ -161,22 +171,29 @@ export default {
             if (!this.swiping) {
                 return;
             }
+            var {
+                loop,
+                list,
+                start,
+                flickThreshold,
+                delta,
+                activeIndex
+            } = this;
             var pos = this.calculatePos(e);
-            var time = Date.now() - this.start;
+            var time = Date.now() - start;
             var velocity = Math.sqrt(pos.absX * pos.absX + pos.absY * pos.absY) / time;
-            var isFlick = velocity > this.flickThreshold;
-            var activeIndex = this.activeIndex;
-            if (isFlick || pos.absX > this.delta) {
-                activeIndex = activeIndex + pos.absX / pos.deltaX;
+            var isFlick = velocity > flickThreshold;
+            var newIndex = activeIndex;
+            if (isFlick || pos.absX > delta) {
+                newIndex = newIndex + pos.absX / pos.deltaX;
+                if (!loop) {
+                    newIndex = Math.max(Math.min(newIndex, list.length - 1), 0);
+                }
             }
-            this.transitionDuration = defaultDuration;
-            this.slid(activeIndex, 0);
-            this.setTimer();
+            this.transitionTo(newIndex);
         },
         onTouchcancel(e) {
-            this.transitionDuration = defaultDuration;
-            this.slid(this.activeIndex, 0);
-            this.setTimer();
+            this.transitionTo(this.activeIndex);
         },
         resize() {
             this.width = this.$el.offsetWidth;

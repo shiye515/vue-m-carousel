@@ -1,9 +1,28 @@
 # vue-m-carousel
 vue 移动端轮播组件
 
+
+[![NPM version][npm-image]][npm-url]
+[![npm download][download-image]][download-url]
+
+[npm-image]: http://img.shields.io/npm/v/vue-m-carousel.svg?style=flat-square
+[npm-url]: http://npmjs.org/package/vue-m-carousel
+[download-image]: https://img.shields.io/npm/dm/vue-m-carousel.svg?style=flat-square
+[download-url]: https://npmjs.org/package/vue-m-carousel
+
+##简介（Intro）
+
+- 移动端高性能轮播组件
+- 除了vue之外不依赖其他库
+- 动画通过 transform 和 translate 实现，布局通过flex实现
+- 支持响应式布局，也支持固定布局
+- 提供动画结束的回调
+
 ## install
 
 [![vue-m-carousel](https://nodei.co/npm/vue-m-carousel.png)](https://npmjs.org/package/vue-m-carousel)
+
+`npm install vue-m-carousel`
 
 ## 用法
 ```html
@@ -17,7 +36,6 @@ vue 移动端轮播组件
     </carousel>
 ```
 ```javascript
-// 先将就着这么用吧。。。
 import Carousel from 'vue-m-carousel/src/Carousel'
 import CarouselItem from 'vue-m-carousel/src/CarouselItem'
 export default {
@@ -44,19 +62,19 @@ export default {
     <tbody>
         <tr>
           <td>loop</td>
-          <td>bool</td>
-          <td>false</td>
+          <td>Boolean</td>
+          <td>true</td>
           <td>是否循环播放</td>
         </tr>
         <tr>
           <td>auto</td>
           <td>Number</td>
-          <td>0</td>
+          <td>3000</td>
           <td>是否自动播放，0不自动播放，其他值则自动播放，值为其自动播放的interval</td>
         </tr>
         <tr>
           <td>indicators</td>
-          <td>bool</td>
+          <td>Boolean</td>
           <td>false</td>
           <td>是否添加屏点，不带任何样式，样式可参考demo写</td>
         </tr>
@@ -77,6 +95,12 @@ export default {
           <td>Number</td>
           <td>100</td>
           <td>滚动时触发滚动到下一张的最小值</td>
+        </tr>
+        <tr>
+          <td>onSlidEnd</td>
+          <td>Function</td>
+          <td>noop</td>
+          <td>轮播切换完成时的回调</td>
         </tr>
     </tbody>
 </table>

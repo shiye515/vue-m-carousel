@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <carousel :indicators="true">
+        <carousel :indicators="true" :on-slid-end="slidEnd">
             <carousel-item>carousel-item-0</carousel-item>
             <carousel-item>carousel-item-1</carousel-item>
             <carousel-item>carousel-item-2</carousel-item>
@@ -18,6 +18,11 @@ export default {
     components: {
         Carousel,
         CarouselItem
+    },
+    methods: {
+        slidEnd(index) {
+            console.log(index)
+        }
     }
 }
 </script>
