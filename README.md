@@ -1,6 +1,5 @@
 # vue-m-carousel
-vue 移动端轮播组件
-
+vue 移动端轮播组件 [live demo](https://shiye515.github.io/vue-m-carousel/)
 
 [![NPM version][npm-image]][npm-url]
 [![npm download][download-image]][download-url]
