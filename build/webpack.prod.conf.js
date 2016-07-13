@@ -13,6 +13,9 @@ module.exports = {
         path: config.build.assetsRoot,
         filename: '[name].js'
     },
+    externals: {
+        vue: 'vue'
+    },
     resolve: {
         extensions: ['', '.js', '.vue'],
         fallback: [path.join(__dirname, '../node_modules')],

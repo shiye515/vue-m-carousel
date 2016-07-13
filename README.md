@@ -11,7 +11,7 @@ vue 移动端轮播组件 [live demo](https://shiye515.github.io/vue-m-carousel/
 
 ##简介（Intro）
 
-- 移动端高性能轮播组件
+- 移动端高性能轮播组件，体积只有 8.82 kB
 - 除了vue之外不依赖其他库
 - 动画通过 transform 和 translate 实现，布局通过flex实现
 - 支持响应式布局，也支持固定布局
@@ -34,9 +34,22 @@ vue 移动端轮播组件 [live demo](https://shiye515.github.io/vue-m-carousel/
         <carousel-item>carousel-item-5</carousel-item>
     </carousel>
 ```
+
+如果项目中有用单文件 Vue 组件，推荐如下用法。
 ```javascript
 import Carousel from 'vue-m-carousel/src/Carousel'
 import CarouselItem from 'vue-m-carousel/src/CarouselItem'
+export default {
+    components: {
+        Carousel,
+        CarouselItem
+    }
+}
+```
+
+如果项目中不用单文件 Vue 组件
+```javascript
+import { Carousel, CarouselItem } from 'vue-m-carousel'
 export default {
     components: {
         Carousel,

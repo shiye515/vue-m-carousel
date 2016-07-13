@@ -1,3 +1,3 @@
-import Carousel from './Carousel'
-import CarouselItem from './CarouselItem'
-export { Carousel, CarouselItem }
+var Carousel = require('./Carousel')
+var CarouselItem = require('./CarouselItem')
+module.exports = { Carousel, CarouselItem }

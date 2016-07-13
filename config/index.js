@@ -18,7 +18,7 @@ module.exports = {
   dev: {
     index: path.resolve(__dirname, '../example/index.html'),
     env: require('./dev.env'),
-    port: 8080,
+    port: 8081,
     proxyTable: {}
   }
 }
