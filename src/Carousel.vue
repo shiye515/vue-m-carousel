@@ -1,6 +1,6 @@
 <template>
-    <div class="carousel" :style="style">
-        <div class="carousel-track" :style="trackStyle" @touchstart="onTouchstart" @touchmove="onTouchmove" @touchend="onTouchend" @touchcancel="onTouchcancel">
+    <div class="carousel" :style="style" @touchstart="onTouchstart" @touchmove="onTouchmove" @touchend="onTouchend" @touchcancel="onTouchcancel">
+        <div class="carousel-track" :style="trackStyle">
             {{{addonBefore}}}
             <slot></slot>
             {{{addonAfter}}}
@@ -153,7 +153,6 @@ export default {
             if (e.touches.length > 1) {
                 return
             }
-            this.swiping = false;
             this.transitionDuration = 0;
             this.start = Date.now();
             this.x = e.touches[0].clientX;
@@ -163,14 +162,10 @@ export default {
         onTouchmove(e) {
             var pos = this.calculatePos(e);
             if (pos.absX > pos.absY) {
-                this.swiping = true;
                 this.slid(this.activeIndex, pos.deltaX);
             }
         },
         onTouchend(e) {
-            if (!this.swiping) {
-                return;
-            }
             var {
                 loop,
                 list,

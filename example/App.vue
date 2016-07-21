@@ -1,12 +1,9 @@
 <template>
     <div id="app">
         <carousel :indicators="true" :on-slid-end="slidEnd">
-            <carousel-item>carousel-item-0</carousel-item>
-            <carousel-item>carousel-item-1</carousel-item>
-            <carousel-item>carousel-item-2</carousel-item>
-            <carousel-item>carousel-item-3</carousel-item>
-            <carousel-item>carousel-item-4</carousel-item>
-            <carousel-item>carousel-item-5</carousel-item>
+            <carousel-item @click="log(0)">carousel-item-0</carousel-item>
+            <carousel-item @click="log(1)">carousel-item-1</carousel-item>
+            <carousel-item @click="log(2)">carousel-item-2</carousel-item>
         </carousel>
     </div>
 </template>
@@ -21,7 +18,10 @@ export default {
     },
     methods: {
         slidEnd(index) {
-            console.log(index)
+            // console.log(index)
+        },
+        log(i) {
+            console.log(i)
         }
     }
 }
