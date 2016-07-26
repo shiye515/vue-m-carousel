@@ -72,6 +72,9 @@ export default {
     watch: {
         list() {
             this.setHelperDOM();
+        },
+        auto() {
+            this.setTimer()
         }
     },
     methods: {
