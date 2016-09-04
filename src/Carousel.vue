@@ -41,6 +41,10 @@ export default {
         onSlidEnd: {
             type: Function,
             default: i => 0
+        },
+        preventDefault: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -80,7 +84,7 @@ export default {
     methods: {
         setHelperDOM() {
             var len = this.list.length;
-            if (len && this.loop) {
+            if (len > 1 && this.loop) {
                 this.addonBefore = this.list[len - 1].$el.outerHTML;
                 this.addonAfter = this.list[0].$el.outerHTML;
             }
@@ -95,6 +99,9 @@ export default {
             var len = list.length;
             if (len === 0) {
                 return;
+            }
+            if (len === 1) {
+                loop = false
             }
             if (!loop) {
                 index = (index + len) % len;
@@ -135,7 +142,7 @@ export default {
                 list
             } = this;
             var len = list.length;
-            if (auto && len) {
+            if (auto && len > 1) {
                 this.timer = setInterval(() => {
                     this.transitionTo(this.activeIndex + 1)
                 }, auto)
@@ -163,8 +170,12 @@ export default {
             this.clearTimer();
         },
         onTouchmove(e) {
+            if (this.preventDefault) {
+                e.preventDefault();
+            }
             var pos = this.calculatePos(e);
             if (pos.absX > pos.absY) {
+                e.preventDefault();
                 this.slid(this.activeIndex, pos.deltaX);
             }
         },

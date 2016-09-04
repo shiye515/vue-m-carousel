@@ -114,5 +114,11 @@ export default {
           <td>noop</td>
           <td>轮播切换完成时的回调</td>
         </tr>
+        <tr>
+          <td>preventDefault</td>
+          <td>Boolean</td>
+          <td>false</td>
+          <td>取消touchmove事件的默认动作</td>
+        </tr>
     </tbody>
 </table>
