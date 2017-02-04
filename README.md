@@ -1,7 +1,7 @@
 # vue-m-carousel
 vue 移动端轮播组件 [live demo](https://shiye515.github.io/vue-m-carousel/)
 
-[1.0 version](https://github.com/shiye515/vue-m-carousel/tree/1.0)
+[1.0 branch](https://github.com/shiye515/vue-m-carousel/tree/1.0)
 
 [![NPM version][npm-image]][npm-url]
 [![npm download][download-image]][download-url]
@@ -28,39 +28,20 @@ vue 移动端轮播组件 [live demo](https://shiye515.github.io/vue-m-carousel/
 ## 用法
 ```html
     <carousel :indicators="true" :auto="3000">
-        <carousel-item>carousel-item-0</carousel-item>
-        <carousel-item>carousel-item-1</carousel-item>
-        <carousel-item>carousel-item-2</carousel-item>
-        <carousel-item>carousel-item-3</carousel-item>
-        <carousel-item>carousel-item-4</carousel-item>
-        <carousel-item>carousel-item-5</carousel-item>
+        <div v-for="i in 3">carousel-item-{{i-1}}</div>
     </carousel>
 ```
 
-如果项目中有用单文件 Vue 组件，推荐如下用法。
 ```javascript
-import Carousel from 'vue-m-carousel/src/Carousel'
-import CarouselItem from 'vue-m-carousel/src/CarouselItem'
+import Carousel from 'vue-m-carousel'
 export default {
     components: {
-        Carousel,
-        CarouselItem
+        Carousel
     }
 }
 ```
 
-如果项目中不用单文件 Vue 组件
-```javascript
-import { Carousel, CarouselItem } from 'vue-m-carousel'
-export default {
-    components: {
-        Carousel,
-        CarouselItem
-    }
-}
-```
-
-## API
+## API（跟1.0版本一致）
 
 ### props
 
