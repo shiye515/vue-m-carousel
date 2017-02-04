@@ -1,25 +1,21 @@
 <template>
     <div id="app">
         <carousel :indicators="true" :on-slid-end="slidEnd" :auto="auto">
-            <carousel-item @click="log(0)">carousel-item-0</carousel-item>
-            <carousel-item @click="log(1)">carousel-item-1</carousel-item>
-            <carousel-item @click="log(2)">carousel-item-2</carousel-item>
+            <div class="carousel-i" v-for="i in 3" @click="log(i-1)">carousel-item-{{i-1}}</div>
         </carousel>
-
+        <div>---</div>
         <carousel :indicators="true" :on-slid-end="slidEnd" :auto="auto">
-            <carousel-item @click="log(0)">carousel-item-0</carousel-item>
+            <div class="carousel-i" @click="log(0)">只有一个没有动画</div>
         </carousel>
+        <button @click="toggle">toggle auto</button>
     </div>
-    <button @click="toggle">toggle auto</button>
 </template>
 <script>
-import Carousel from '../src/Carousel'
-import CarouselItem from '../src/CarouselItem'
+import Carousel from '../src/index.js'
 
 export default {
     components: {
-        Carousel,
-        CarouselItem
+        Carousel
     },
     data() {
         return {
@@ -46,8 +42,10 @@ body {
 
 .carousel {
     height: 100px;
-    &-item {
+    &-i {
         border: 1px solid red;
+        height: 100%;
+        box-sizing: border-box;
     }
 }
 </style>
