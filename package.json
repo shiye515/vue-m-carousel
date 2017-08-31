@@ -1,6 +1,6 @@
 {
   "name": "vue-m-carousel",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A Vue.js carousel component",
   "main": "dist/index.js",
   "author": "shiye515 <shiye515@gmail.com>",
